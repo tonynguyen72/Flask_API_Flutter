@@ -1,0 +1,9 @@
+Please do the following to run the app (2 folders inside folder flutter_api)
+1) Under the restapi_flask folder:
+    - run terminal and type "pipenv shell" to activate virtual feature
+    - type "flask run" or "python app.py" to access the port "http://127.0.0.1:5000/drink" (add "drink" to access the data) 
+
+2) Under the sqlite_bloc folder:
+    - run terminal and flutter run (tada you know what i mean)
+
+3) I will do the CRUD with flask and flutter soon...

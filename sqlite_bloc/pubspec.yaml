@@ -1,0 +1,41 @@
+name: sqlite_bloc
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+  sqflite: ^1.1.6+4
+  path_provider: ^1.2.0
+  provider: ^3.1.0
+  http: ^0.12.0+2
+  rxdart: ^0.22.2
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true
+  # To add assets to your application, add an assets section, like this:
+  assets:
+    - assets/
+  #  - images/a_dot_ham.jpeg
+  fonts:
+    - family: AbrilFatface
+      fonts:
+        - asset: assets/AbrilFatface-Regular.ttf
+  #       - asset: fonts/Schyler-Italic.ttf
+  #         style: italic
+  #   - family: Trajan Pro
+  #     fonts:
+  #       - asset: fonts/TrajanPro.ttf
+  #       - asset: fonts/TrajanPro_Bold.ttf
+  #         weight: 700
+  #
