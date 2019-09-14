@@ -8,7 +8,8 @@ class Api {
   //* Get all drink list
   Future<List<Drink>> getDrinks() async {
     await Future.delayed(Duration(seconds: 3));
-    final response = await http.get('$baseUrl');
+    final response = await http
+        .get('$baseUrl', headers: {"Content-Type": "Application/json"});
 
     final decoded = json.decode(response.body) as List;
 
@@ -19,11 +20,12 @@ class Api {
   }
 
   //* Get a single drink from the api
-  Future<Drink> getDrink({int id}) async {
-    final response = await http.get('$baseUrl/$id');
-    final decoded = json.decode(response.body);
-    print(decoded);
-    Drink d = decoded.map((json) => Drink.fromJson(json));
-    return d;
+  Future<Drink> getDrinkById(int id) async {
+    final response = await http
+        .get('$baseUrl/$id', headers: {"Content-Type": "Application/json"});
+    var decoded = jsonDecode(response.body);
+    var drink = Drink.fromJson(decoded);
+
+    return drink;
   }
 }

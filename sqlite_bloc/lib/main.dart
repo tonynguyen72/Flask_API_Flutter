@@ -4,7 +4,9 @@ import 'drink.dart';
 import 'flask_network.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(MyApp());
+void main() {
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override
@@ -31,14 +33,20 @@ class DrinkListView extends StatefulWidget {
 
 class _DrinkListViewState extends State<DrinkListView> {
   final api = Api();
+  int _id;
+  Drink _dr;
+  TextEditingController _idController = TextEditingController();
 
-  // Future loadDrinks() async {
-  //   await Future.delayed(Duration(seconds: 5), () => api.getDrinks());
-  // }
+  Future<Drink> loadDrink(int id) async {
+    var dr = await api.getDrinkById(id);
+    _id = id;
+    _dr = dr;
+    return _dr;
+  }
 
   @override
   void initState() {
-    // loadDrinks();
+    loadDrink(3);
     super.initState();
   }
 
@@ -47,7 +55,7 @@ class _DrinkListViewState extends State<DrinkListView> {
     final bloc = Provider.of<DrinkBloc>(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('Drink List View'),
+        title: Text('Local Coffee Shop'),
         actions: <Widget>[
           IconButton(
             icon: Icon(Icons.filter, color: Colors.white),
@@ -59,7 +67,7 @@ class _DrinkListViewState extends State<DrinkListView> {
         scrollDirection: Axis.vertical,
         children: <Widget>[
           Container(
-            height: MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height - 300,
             width: MediaQuery.of(context).size.width,
             child: StreamBuilder<List<Drink>>(
               stream: bloc.drinkStream,
@@ -78,6 +86,63 @@ class _DrinkListViewState extends State<DrinkListView> {
                     },
                   );
                 }
+              },
+            ),
+          ),
+          //*
+          SizedBox(
+            height: 10,
+          ),
+          Container(
+            height: 300,
+            child: FutureBuilder<Drink>(
+              future: loadDrink(_id),
+              builder: (BuildContext context, AsyncSnapshot<Drink> snapshot) {
+                _id = snapshot.data.id;
+                print(snapshot.data);
+                if (snapshot.hasData) {
+                  return Column(
+                    children: <Widget>[
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 20),
+                        height: 40,
+                        child: TextField(
+                          controller: _idController,
+                          keyboardType: TextInputType.number,
+                          decoration:
+                              InputDecoration(hintText: 'Enter a number'),
+                        ),
+                      ),
+                      FlatButton(
+                        onPressed: () async {
+                          _id = int.parse(_idController.text);
+
+                          await loadDrink(_id);
+                          setState(() {});
+                        },
+                        child: Text('Generate ID'),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: <Widget>[
+                          Text(
+                            snapshot.data.id.toString(),
+                            style: TextStyle(fontSize: 25),
+                          ),
+                          Text(
+                            snapshot.data.name,
+                            style: TextStyle(fontSize: 25),
+                          ),
+                        ],
+                      ),
+                    ],
+                  );
+                } else {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                // return Text(snapshot.data.name);
               },
             ),
           ),

@@ -1,3 +1,8 @@
+import 'package:json_annotation/json_annotation.dart';
+
+part 'drink.g.dart';
+
+@JsonSerializable()
 class Drink {
   int id;
   String name;
@@ -13,19 +18,7 @@ class Drink {
     this.qty,
   });
 
-  factory Drink.fromJson(Map<String, dynamic> json) => Drink(
-        id: json['id'],
-        name: json['name'],
-        image: json['image'],
-        price: json['price'],
-        qty: json['qty'],
-      );
+  factory Drink.fromJson(Map<String, dynamic> json) => _$DrinkFromJson(json);
 
-  Map<String, dynamic> toJson() => {
-        "id": id,
-        "name": name,
-        "image": image,
-        "price": price,
-        "qty": qty,
-      };
+  Map<String, dynamic> toJson() => _$DrinkToJson(this);
 }
